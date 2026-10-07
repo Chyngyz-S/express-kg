@@ -343,4 +343,46 @@ function publishLoad(){
     phone,
     description,
     created: new Date().toISOString()
- 
+   };
+
+  const success = document.getElementById('success');
+  success.classList.remove('hidden');
+  success.innerHTML =
+    '✅ Груз подготовлен к размещению!<br><br>' +
+    '📍 ' + from + ' → ' + to + '<br>' +
+    '⚖️ ' + weight + ' тонн<br>' +
+    '📦 ' + (volume || '—') + ' м³<br>' +
+    '🚛 ' + car + '<br>' +
+    '💰 ' + (price || 'Цена договорная') + ' сом<br><br>' +
+    '📞 ' + phone;
+  
+  if (window.Telegram && window.Telegram.WebApp) {
+    tg.showAlert('✅ Груз успешно размещён!');
+  } else {
+    alert('✅ Груз успешно размещён!');
+  }
+}
+
+function respond(route) {
+  if (window.Telegram && window.Telegram.WebApp) {
+    tg.showAlert(
+      '🚛 Отклик на груз\n\n' +
+      '📍 ' + route + '\n\n' +
+      'В следующем этапе подключим отправку отклика грузовладельцу.'
+    );
+  } else {
+    alert(
+      '🚛 Отклик на груз\n\n' +
+      '📍 ' + route
+    );
+  }
+}
+
+if (window.Telegram && window.Telegram.WebApp) {
+  tg.ready();
+  tg.expand();
+}
+</script>
+
+</body>
+</html>
