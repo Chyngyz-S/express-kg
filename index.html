@@ -1,388 +1,46 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>EXPRESS KG</title>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f3f5f7;
-  color:#17202a;
-}
-.header{
-  background:linear-gradient(135deg,#087f5b,#087f9b);
-  color:white;
-  padding:28px 22px;
-  border-radius:0 0 25px 25px;
-}
-.logo{font-size:30px;font-weight:800}
-.subtitle{margin-top:8px;font-size:16px;opacity:.9}
-.container{padding:18px}
-h1{font-size:26px;margin:10px 0 18px}
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.card{
-  background:white;
-  border-radius:22px;
-  padding:25px 10px;
-  text-align:center;
-  box-shadow:0 4px 15px #0000000d;
-}
-.card .icon{font-size:45px}
-.card b{display:block;font-size:17px;margin-top:12px}
-.btn{
-  width:100%;
-  border:0;
-  border-radius:16px;
-  padding:16px;
-  background:#087f5b;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  margin-top:12px;
-}
-.back{
-  background:white;
-  color:#17202a;
-  width:auto;
-  padding:13px 25px;
-  margin-bottom:20px;
-}
-.load{
-  background:white;
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:15px;
-}
-.load h2{margin:0 0 15px;font-size:22px}
-.info{color:#65727e;font-size:17px;line-height:1.7}
-input,select,textarea{
-  width:100%;
-  padding:15px;
-  margin:7px 0 12px;
-  border:1px solid #d8dde2;
-  border-radius:14px;
-  font-size:16px;
-  background:white;
-}
-label{
-  font-weight:bold;
-  font-size:15px;
-}
-textarea{min-height:90px;resize:none}
-.hidden{display:none}
-.success{
-  background:#e7f8ef;
-  padding:18px;
-  border-radius:18px;
-  margin-top:15px;
-  color:#087f5b;
-  font-weight:bold;
-}
-.price{
-  font-size:20px;
-  font-weight:bold;
-  color:#087f5b;
-}
-</style>
-</head>
-
-<body>
-
-<div class="header">
-  <div class="logo">🚚 EXPRESS KG</div>
-  <div class="subtitle">Грузоперевозки по Кыргызстану</div>
-</div>
-
-<div class="container">
-
-<!-- ГЛАВНАЯ -->
-<div id="home">
-  <h1>Что вам нужно?</h1>
-
-  <div class="grid">
-    <div class="card" onclick="show('place')">
-      <div class="icon">📦</div>
-      <b>Разместить груз</b>
-    </div>
-
-    <div class="card" onclick="show('loads')">
-      <div class="icon">🚚</div>
-      <b>Найти груз</b>
-    </div>
-
-    <div class="card" onclick="show('reverse')">
-      <div class="icon">🔄</div>
-      <b>Обратный груз</b>
-    </div>
-
-    <div class="card" onclick="show('profile')">
-      <div class="icon">👤</div>
-      <b>Мой профиль</b>
-    </div>
-  </div>
-
-  <h1 style="margin-top:30px">🔥 Актуальные грузы</h1>
-
-  <div class="load">
-    <h2>📍 Бишкек → Ош</h2>
-    <div class="info">
-      ⚖️ 5 тонн<br>
-      📦 20 м³<br>
-      🚛 Тент
-    </div>
-    <button class="btn" onclick="respond('Бишкек → Ош')">
-      Откликнуться
-    </button>
-  </div>
-
-  <div class="load">
-    <h2>📍 Ош → Джалал-Абад</h2>
-    <div class="info">
-      ⚖️ 3 тонны<br>
-      📦 12 м³<br>
-      🚛 Бортовая
-    </div>
-    <button class="btn" onclick="respond('Ош → Джалал-Абад')">
-      Откликнуться
-    </button>
-  </div>
-</div>
-
-
-<!-- РАЗМЕСТИТЬ ГРУЗ -->
-<div id="place" class="hidden">
-
-  <button class="btn back" onclick="show('home')">← Назад</button>
-
-  <h1>📦 Разместить груз</h1>
-
-  <div class="load">
-
-    <label>📍 Откуда</label>
-    <input id="from" placeholder="Например: Бишкек">
-
-    <label>📍 Куда</label>
-    <input id="to" placeholder="Например: Ош">
-
-    <label>⚖️ Вес, тонн</label>
-    <input id="weight" type="number" placeholder="Например: 5">
-
-    <label>📦 Объём, м³</label>
-    <input id="volume" type="number" placeholder="Например: 20">
-
-    <label>🚛 Тип машины</label>
-    <select id="car">
-      <option value="">Выберите машину</option>
-      <option>Тент</option>
-      <option>Бортовая</option>
-      <option>Рефрижератор</option>
-      <option>Самосвал</option>
-      <option>Газель</option>
-      <option>Манипулятор</option>
-      <option>Спецтехника</option>
-      <option>Другое</option>
-    </select>
-
-    <label>📅 Дата загрузки</label>
-    <input id="date" type="date">
-
-    <label>💰 Цена перевозки, сом</label>
-    <input id="price" type="number" placeholder="Например: 30000">
-
-    <label>📞 Телефон</label>
-    <input id="phone" type="tel" placeholder="+996">
-
-    <label>📝 Описание</label>
-    <textarea id="description"
-      placeholder="Что перевозим? Дополнительные условия..."></textarea>
-
-    <button class="btn" onclick="publishLoad()">
-      🚀 РАЗМЕСТИТЬ ГРУЗ
-    </button>
-
-    <div id="success" class="success hidden"></div>
-
-  </div>
-</div>
-
-
-<!-- ПОИСК ГРУЗА -->
-<div id="loads" class="hidden">
-
-  <button class="btn back" onclick="show('home')">← Назад</button>
-
-  <h1>🚚 Найти груз</h1>
-
-  <div class="load">
-    <h2>📍 Бишкек → Ош</h2>
-    <div class="info">
-      ⚖️ 5 тонн<br>
-      📦 20 м³<br>
-      🚛 Тент
-    </div>
-    <button class="btn" onclick="respond('Бишкек → Ош')">
-      Откликнуться
-    </button>
-  </div>
-
-  <div class="load">
-    <h2>📍 Ош → Джалал-Абад</h2>
-    <div class="info">
-      ⚖️ 3 тонны<br>
-      📦 12 м³<br>
-      🚛 Бортовая
-    </div>
-    <button class="btn" onclick="respond('Ош → Джалал-Абад')">
-      Откликнуться
-    </button>
-  </div>
-
-</div>
-
-
-<!-- ОБРАТНЫЙ ГРУЗ -->
-<div id="reverse" class="hidden">
-
-  <button class="btn back" onclick="show('home')">← Назад</button>
-
-  <h1>🔄 Обратный груз</h1>
-
-  <div class="load">
-    <h2>Найти груз на обратный путь</h2>
-
-    <label>Откуда</label>
-    <input placeholder="Например: Ош">
-
-    <label>Куда</label>
-    <input placeholder="Например: Бишкек">
-
-    <button class="btn" onclick="alert('Поиск обратных грузов будет подключён следующим этапом.')">
-      🔎 Найти обратный груз
-    </button>
-  </div>
-
-</div>
-
-
-<!-- ПРОФИЛЬ -->
-<div id="profile" class="hidden">
-
-  <button class="btn back" onclick="show('home')">← Назад</button>
-
-  <h1>👤 Мой профиль</h1>
-
-  <div class="load">
-    <h2>EXPRESS KG</h2>
-    <div class="info">
-      👤 Пользователь Telegram<br>
-      📦 Мои грузы: 0<br>
-      🚚 Мои отклики: 0
-    </div>
-  </div>
-
-</div>
-
-</div>
-
-
-<script>
-
-const tg = window.Telegram.WebApp;
-
-tg.ready();
-tg.expand();
-
-
-function show(page){
-
-  document.querySelectorAll(
-    '#home,#place,#loads,#reverse,#profile'
-  ).forEach(x => x.classList.add('hidden'));
-
-  document.getElementById(page).classList.remove('hidden');
-
-  window.scrollTo(0,0);
-}
-
-
-function publishLoad(){
-
-  const from = document.getElementById('from').value.trim();
-  const to = document.getElementById('to').value.trim();
-  const weight = document.getElementById('weight').value.trim();
-  const volume = document.getElementById('volume').value.trim();
-  const car = document.getElementById('car').value;
-  const date = document.getElementById('date').value;
-  const price = document.getElementById('price').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const description = document.getElementById('description').value.trim();
-
-  if(!from || !to || !weight || !car || !phone){
-    alert('⚠️ Заполните: откуда, куда, вес, тип машины и телефон.');
-    return;
+    };
+
+    const success = document.getElementById('success');
+
+    success.classList.remove('hidden');
+
+    success.innerHTML =
+      '✅ Груз подготовлен к размещению!<br><br>' +
+      '📍 ' + from + ' → ' + to + '<br>' +
+      '⚖️ ' + weight + ' тонн<br>' +
+      '📦 ' + (volume || '—') + ' м³<br>' +
+      '🚛 ' + car + '<br>' +
+      '💰 ' + (price || 'Цена договорная') + ' сом<br><br>' +
+      '📞 ' + phone;
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      tg.showAlert('✅ Груз успешно размещён!');
+    } else {
+      alert('✅ Груз успешно размещён!');
+    }
   }
 
-  const load = {
-    from,
-    to,
-    weight,
-    volume,
-    car,
-    date,
-    price,
-    phone,
-    description,
-    created: new Date().toISOString()
-   };
+  function respond(route) {
+    if (window.Telegram && window.Telegram.WebApp) {
+      tg.showAlert(
+        '🚛 Отклик на груз\n\n' +
+        '📍 ' + route + '\n\n' +
+        'Скоро подключим реального грузовладельца.'
+      );
+    } else {
+      alert(
+        '🚛 Отклик на груз\n\n' +
+        '📍 ' + route
+      );
+    }
+  }
 
-  const success = document.getElementById('success');
-  success.classList.remove('hidden');
-  success.innerHTML =
-    '✅ Груз подготовлен к размещению!<br><br>' +
-    '📍 ' + from + ' → ' + to + '<br>' +
-    '⚖️ ' + weight + ' тонн<br>' +
-    '📦 ' + (volume || '—') + ' м³<br>' +
-    '🚛 ' + car + '<br>' +
-    '💰 ' + (price || 'Цена договорная') + ' сом<br><br>' +
-    '📞 ' + phone;
-  
   if (window.Telegram && window.Telegram.WebApp) {
-    tg.showAlert('✅ Груз успешно размещён!');
-  } else {
-    alert('✅ Груз успешно размещён!');
+    tg.ready();
+    tg.expand();
   }
-}
 
-function respond(route) {
-  if (window.Telegram && window.Telegram.WebApp) {
-    tg.showAlert(
-      '🚛 Отклик на груз\n\n' +
-      '📍 ' + route + '\n\n' +
-      'В следующем этапе подключим отправку отклика грузовладельцу.'
-    );
-  } else {
-    alert(
-      '🚛 Отклик на груз\n\n' +
-      '📍 ' + route
-    );
-  }
-}
-
-if (window.Telegram && window.Telegram.WebApp) {
-  tg.ready();
-  tg.expand();
-}
-</script>
+  </script>
 
 </body>
 </html>
