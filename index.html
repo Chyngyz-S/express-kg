@@ -1,176 +1,338 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Express KG</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXPRESS KG</title>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      color: #17202a;
-      padding-bottom: 30px;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #087f5b, #0b7285);
-      color: white;
-      padding: 28px 20px;
-      border-radius: 0 0 24px 24px;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .subtitle {
-      margin-top: 7px;
-      opacity: .9;
-      font-size: 14px;
-    }
-
-    .container {
-      padding: 18px;
-    }
-
-    .title {
-      font-size: 21px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px 14px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-      text-align: center;
-      border: none;
-      font-size: 15px;
-      font-weight: 700;
-      color: #17202a;
-    }
-
-    .icon {
-      font-size: 34px;
-      display: block;
-      margin-bottom: 9px;
-    }
-
-    .section {
-      margin-top: 24px;
-    }
-
-    .load {
-      background: white;
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-    }
-
-    .route {
-      font-size: 17px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .info {
-      color: #667085;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .button {
-      width: 100%;
-      margin-top: 12px;
-      padding: 13px;
-      border: none;
-      border-radius: 12px;
-      background: #087f5b;
-      color: white;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .footer {
-      text-align: center;
-      color: #98a2b3;
-      font-size: 12px;
-      margin-top: 25px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+color:#17202a;
+}
+.header{
+background:linear-gradient(135deg,#087f5b,#087f9b);
+color:white;
+padding:28px 20px;
+border-radius:0 0 24px 24px;
+}
+.logo{font-size:28px;font-weight:800}
+.subtitle{margin-top:8px;font-size:15px;opacity:.9}
+.container{padding:18px}
+.title{font-size:22px;font-weight:700;margin-bottom:14px}
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+.card{
+background:white;
+border-radius:22px;
+padding:25px 10px;
+text-align:center;
+box-shadow:0 4px 15px rgba(0,0,0,.06);
+cursor:pointer;
+}
+.card:active{transform:scale(.97)}
+.icon{font-size:42px}
+.card b{display:block;font-size:17px;margin-top:12px}
+.load{
+background:white;
+border-radius:22px;
+padding:20px;
+margin-bottom:14px;
+box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+.route{font-size:20px;font-weight:700;margin-bottom:12px}
+.info{color:#68727d;line-height:1.7}
+.btn{
+width:100%;
+border:0;
+background:#087f5b;
+color:white;
+padding:14px;
+border-radius:15px;
+font-size:17px;
+font-weight:700;
+margin-top:12px;
+}
+.btn:active{transform:scale(.98)}
+.page{display:none}
+.page.active{display:block}
+.back{
+border:0;
+background:white;
+padding:12px 18px;
+border-radius:14px;
+font-size:16px;
+margin-bottom:18px;
+}
+.form{
+background:white;
+padding:20px;
+border-radius:20px;
+}
+input,select{
+width:100%;
+padding:14px;
+margin:7px 0 12px;
+border:1px solid #ddd;
+border-radius:12px;
+font-size:16px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="header">
-    <div class="logo">🚛 EXPRESS KG</div>
-    <div class="subtitle">Грузоперевозки по Кыргызстану</div>
-  </div>
+<div class="header">
+<div class="logo">🚛 EXPRESS KG</div>
+<div class="subtitle">Грузоперевозки по Кыргызстану</div>
+</div>
 
-  <div class="container">
+<div class="container">
 
-    <div class="title">Что вам нужно?</div>
+<!-- ГЛАВНАЯ -->
+<div id="home" class="page active">
 
-    <div class="grid">
+<div class="title">Что вам нужно?</div>
 
-      <button class="card" onclick="openBot()">
-        <span class="icon">📦</span>
-        Разместить груз
-      </button>
+<div class="grid">
 
-      <button class="card" onclick="openBot()">
-        <span class="icon">🚛</span>
-        Найти груз
-      </button>
+<div class="card" onclick="openPage('cargo')">
+<div class="icon">📦</div>
+<b>Разместить груз</b>
+</div>
 
-      <button class="card" onclick="openBot()">
-        <span class="icon">🔄</span>
-        Обратный груз
-      </button>
+<div class="card" onclick="openPage('loads')">
+<div class="icon">🚛</div>
+<b>Найти груз</b>
+</div>
 
-      <button class="card" onclick="openBot()">
-        <span class="icon">👤</span>
-        Мой профиль
-      </button>
+<div class="card" onclick="openPage('back')">
+<div class="icon">🔄</div>
+<b>Обратный груз</b>
+</div>
 
-    </div>
+<div class="card" onclick="openPage('profile')">
+<div class="icon">👤</div>
+<b>Мой профиль</b>
+</div>
 
-    <div class="section">
-      <div class="title">🔥 Актуальные грузы</div>
+</div>
 
-      <div class="load">
-        <div class="route">📍 Бишкек → Ош</div>
-        <div class="info">
-          ⚖️ Вес: 5 тонн<br>
-          📦 Объём: 20 м³<br>
-          🚛 Машина: тент
-        </div>
-        <button class="button" onclick="openBot()">Откликнуться</button>
-      </div>
+<br>
 
-      <div class="load">
-        <div class="route">📍 Ош → Джалал-Абад</div>
-        <div class="info">
-          ⚖️ Вес: 3 тонны<br>
-          📦 Объём: 12 м³<br>
-          🚛 Машина: бортовая
-        </div>
-        <button class="
+<div class="title">🔥 Актуальные грузы</div>
+
+<div class="load">
+<div class="route">📍 Бишкек → Ош</div>
+<div class="info">
+⚖️ Вес: 5 тонн<br>
+📦 Объём: 20 м³<br>
+🚛 Машина: тент
+</div>
+<button class="btn" onclick="respond()">Откликнуться</button>
+</div>
+
+<div class="load">
+<div class="route">📍 Ош → Джалал-Абад</div>
+<div class="info">
+⚖️ Вес: 3 тонны<br>
+📦 Объём: 12 м³<br>
+🚛 Машина: бортовая
+</div>
+<button class="btn" onclick="respond()">Откликнуться</button>
+</div>
+
+</div>
+
+
+<!-- РАЗМЕСТИТЬ ГРУЗ -->
+<div id="cargo" class="page">
+
+<button class="back" onclick="openPage('home')">← Назад</button>
+
+<div class="title">📦 Разместить груз</div>
+
+<div class="form">
+
+<label>Откуда</label>
+<input id="from" placeholder="Например: Бишкек">
+
+<label>Куда</label>
+<input id="to" placeholder="Например: Ош">
+
+<label>Вес</label>
+<input id="weight" placeholder="Например: 5 тонн">
+
+<label>Объём</label>
+<input id="volume" placeholder="Например: 20 м³">
+
+<label>Тип машины</label>
+<select id="car">
+<option>Тент</option>
+<option>Бортовая</option>
+<option>Рефрижератор</option>
+<option>Самосвал</option>
+<option>Спецтехника</option>
+</select>
+
+<button class="btn" onclick="publishCargo()">📦 Опубликовать груз</button>
+
+</div>
+</div>
+
+
+<!-- НАЙТИ ГРУЗ -->
+<div id="loads" class="page">
+
+<button class="back" onclick="openPage('home')">← Назад</button>
+
+<div class="title">🚛 Найти груз</div>
+
+<div class="load">
+<div class="route">📍 Бишкек → Ош</div>
+<div class="info">
+⚖️ 5 тонн<br>
+📦 20 м³<br>
+🚛 Тент
+</div>
+<button class="btn" onclick="respond()">Откликнуться</button>
+</div>
+
+<div class="load">
+<div class="route">📍 Ош → Джалал-Абад</div>
+<div class="info">
+⚖️ 3 тонны<br>
+📦 12 м³<br>
+🚛 Бортовая
+</div>
+<button class="btn" onclick="respond()">Откликнуться</button>
+</div>
+
+</div>
+
+
+<!-- ОБРАТНЫЙ ГРУЗ -->
+<div id="back" class="page">
+
+<button class="back" onclick="openPage('home')">← Назад</button>
+
+<div class="title">🔄 Обратный груз</div>
+
+<div class="load">
+<div class="route">Ош → Бишкек</div>
+<div class="info">
+🔥 Ищем перевозчика на обратный рейс
+</div>
+<button class="btn" onclick="respond()">Найти груз</button>
+</div>
+
+</div>
+
+
+<!-- ПРОФИЛЬ -->
+<div id="profile" class="page">
+
+<button class="back" onclick="openPage('home')">← Назад</button>
+
+<div class="title">👤 Мой профиль</div>
+
+<div class="form">
+<p><b>Пользователь Telegram</b></p>
+<p id="username">Загрузка...</p>
+
+<button class="btn" onclick="showRole('🚛 Перевозчик')">
+🚛 Я перевозчик
+</button>
+
+<button class="btn" onclick="showRole('📦 Грузовладелец')">
+📦 Я грузовладелец
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+function openPage(id){
+
+document.querySelectorAll('.page').forEach(p=>{
+p.classList.remove('active');
+});
+
+document.getElementById(id).classList.add('active');
+
+window.scrollTo(0,0);
+}
+
+function respond(){
+
+tg.showAlert(
+"✅ Отклик отправлен!\n\nСейчас это тестовая версия. Следующим этапом подключим реальных грузовладельцев и перевозчиков."
+);
+
+}
+
+function publishCargo(){
+
+let from=document.getElementById("from").value;
+let to=document.getElementById("to").value;
+let weight=document.getElementById("weight").value;
+let volume=document.getElementById("volume").value;
+let car=document.getElementById("car").value;
+
+if(!from || !to || !weight){
+
+tg.showAlert("⚠️ Заполните: откуда, куда и вес.");
+
+return;
+}
+
+tg.showAlert(
+"✅ Груз подготовлен!\n\n"+
+from+" → "+to+
+"\nВес: "+weight+
+"\nОбъём: "+volume+
+"\nМашина: "+car
+);
+
+}
+
+function showRole(role){
+
+tg.showAlert("Вы выбрали: "+role);
+
+}
+
+let user=tg.initDataUnsafe.user;
+
+if(user){
+
+document.getElementById("username").innerText=
+(user.first_name || "")+
+(user.username ? " @"+user.username : "");
+
+}else{
+
+document.getElementById("username").innerText="Пользователь Telegram";
+
+}
+
+</script>
+
+</body>
+</html>
