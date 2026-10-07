@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Express KG</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #17202a;
+      padding-bottom: 30px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #087f5b, #0b7285);
+      color: white;
+      padding: 28px 20px;
+      border-radius: 0 0 24px 24px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      opacity: .9;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 18px;
+    }
+
+    .title {
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      text-align: center;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      color: #17202a;
+    }
+
+    .icon {
+      font-size: 34px;
+      display: block;
+      margin-bottom: 9px;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .load {
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .route {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .info {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: #087f5b;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .footer {
+      text-align: center;
+      color: #98a2b3;
+      font-size: 12px;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="logo">🚛 EXPRESS KG</div>
+    <div class="subtitle">Грузоперевозки по Кыргызстану</div>
+  </div>
+
+  <div class="container">
+
+    <div class="title">Что вам нужно?</div>
+
+    <div class="grid">
+
+      <button class="card" onclick="openBot()">
+        <span class="icon">📦</span>
+        Разместить груз
+      </button>
+
+      <button class="card" onclick="openBot()">
+        <span class="icon">🚛</span>
+        Найти груз
+      </button>
+
+      <button class="card" onclick="openBot()">
+        <span class="icon">🔄</span>
+        Обратный груз
+      </button>
+
+      <button class="card" onclick="openBot()">
+        <span class="icon">👤</span>
+        Мой профиль
+      </button>
+
+    </div>
+
+    <div class="section">
+      <div class="title">🔥 Актуальные грузы</div>
+
+      <div class="load">
+        <div class="route">📍 Бишкек → Ош</div>
+        <div class="info">
+          ⚖️ Вес: 5 тонн<br>
+          📦 Объём: 20 м³<br>
+          🚛 Машина: тент
+        </div>
+        <button class="button" onclick="openBot()">Откликнуться</button>
+      </div>
+
+      <div class="load">
+        <div class="route">📍 Ош → Джалал-Абад</div>
+        <div class="info">
+          ⚖️ Вес: 3 тонны<br>
+          📦 Объём: 12 м³<br>
+          🚛 Машина: бортовая
+        </div>
+        <button class="
